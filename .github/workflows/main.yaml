@@ -19,3 +19,10 @@ jobs:
         run: npx yarn install --frozen-lockfile
       - name: Tests
         run: yarn test
+      - name: Code Coverage
+        uses: codecov/codecov-action@v1.0.12
+        with:
+          name: TypeScript Data Structures
+          token: ${{secrets.CODECOV_TOKEN}}
+          directory: ./out/coverage/
+          fail_ci_if_error: true
