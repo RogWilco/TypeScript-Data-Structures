@@ -1,7 +1,11 @@
 import DoublyLinkedList, { Node } from 'DoublyLinkedList'
 
 describe('DoublyLinkedList', () => {
-  let foo: Node, bar: Node, baz: Node, qux: Node, quux: Node
+  let foo: Node<string>,
+    bar: Node<string>,
+    baz: Node<string>,
+    qux: Node<string>,
+    quux: Node<string>
 
   beforeEach(() => {
     ;[foo, bar, baz, qux, quux] = [
@@ -21,17 +25,13 @@ describe('DoublyLinkedList', () => {
     })
 
     test('generates the expected string for a single node list', () => {
-      const list = new DoublyLinkedList(new Node('foo'))
+      const list = new DoublyLinkedList(foo)
 
       expect(list.toString()).toBe('foo')
     })
 
     test('generates the expected string for a multiple node list', () => {
-      const list = new DoublyLinkedList(
-        new Node('foo'),
-        new Node('bar'),
-        new Node('baz')
-      )
+      const list = new DoublyLinkedList(foo, bar, baz)
 
       expect(list.toString()).toBe('foo <-> bar <-> baz')
     })
@@ -44,8 +44,8 @@ describe('DoublyLinkedList', () => {
       list.setHead(foo)
 
       expect(list.toString()).toBe('foo')
-      expect(list.head?.value).toBe(foo.value)
-      expect(list.tail?.value).toBe(foo.value)
+      expect(list.head?.value).toBe('foo')
+      expect(list.tail?.value).toBe('foo')
     })
 
     test('adds a node to the head of a single-node list', () => {
@@ -54,8 +54,8 @@ describe('DoublyLinkedList', () => {
       list.setHead(bar)
 
       expect(list.toString()).toBe('bar <-> foo')
-      expect(list.head?.value).toBe(bar.value)
-      expect(list.tail?.value).toBe(foo.value)
+      expect(list.head?.value).toBe('bar')
+      expect(list.tail?.value).toBe('foo')
     })
 
     test('adds a node to the head of a populated list', () => {
@@ -64,8 +64,8 @@ describe('DoublyLinkedList', () => {
       list.setHead(baz)
 
       expect(list.toString()).toBe('baz <-> foo <-> bar')
-      expect(list.head?.value).toBe(baz.value)
-      expect(list.tail?.value).toBe(bar.value)
+      expect(list.head?.value).toBe('baz')
+      expect(list.tail?.value).toBe('bar')
     })
   })
 
@@ -76,8 +76,8 @@ describe('DoublyLinkedList', () => {
       list.setTail(foo)
 
       expect(list.toString()).toBe('foo')
-      expect(list.head?.value).toBe(foo.value)
-      expect(list.tail?.value).toBe(foo.value)
+      expect(list.head?.value).toBe('foo')
+      expect(list.tail?.value).toBe('foo')
     })
 
     test('adds a node to the tail of a single-node list', () => {
@@ -86,8 +86,8 @@ describe('DoublyLinkedList', () => {
       list.setTail(bar)
 
       expect(list.toString()).toBe('foo <-> bar')
-      expect(list.head?.value).toBe(foo.value)
-      expect(list.tail?.value).toBe(bar.value)
+      expect(list.head?.value).toBe('foo')
+      expect(list.tail?.value).toBe('bar')
     })
 
     test('adds a node to the tail of a populated list', () => {
@@ -96,8 +96,8 @@ describe('DoublyLinkedList', () => {
       list.setTail(baz)
 
       expect(list.toString()).toBe('foo <-> bar <-> baz')
-      expect(list.head?.value).toBe(foo.value)
-      expect(list.tail?.value).toBe(baz.value)
+      expect(list.head?.value).toBe('foo')
+      expect(list.tail?.value).toBe('baz')
     })
   })
 
@@ -207,7 +207,7 @@ describe('DoublyLinkedList', () => {
     test('inserts a new node at the head of a populated list', () => {
       const list = new DoublyLinkedList(foo, bar, baz, qux)
 
-      list.insertAtPosition(1, new Node('quux'))
+      list.insertAtPosition(1, quux)
 
       expect(list.toString()).toBe('quux <-> foo <-> bar <-> baz <-> qux')
       expect(list.head?.value).toBe('quux')
@@ -216,7 +216,7 @@ describe('DoublyLinkedList', () => {
     test('inserts a new node at the tail of a populated list', () => {
       const list = new DoublyLinkedList(foo, bar, baz, qux)
 
-      list.insertAtPosition(5, new Node('quux'))
+      list.insertAtPosition(5, quux)
 
       expect(list.toString()).toBe('foo <-> bar <-> baz <-> qux <-> quux')
       expect(list.tail?.value).toBe('quux')
@@ -225,7 +225,7 @@ describe('DoublyLinkedList', () => {
     test('inserts a new node in the middle of a populated list', () => {
       const list = new DoublyLinkedList(foo, bar, baz, qux)
 
-      list.insertAtPosition(3, new Node('quux'))
+      list.insertAtPosition(3, quux)
 
       expect(list.toString()).toBe('foo <-> bar <-> quux <-> baz <-> qux')
     })

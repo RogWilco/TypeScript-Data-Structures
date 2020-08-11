@@ -1,16 +1,16 @@
 /**
  * Represents the data structure commonly known as a doubly-linked list.
  */
-export default class DoublyLinkedList {
-  head: Node | null = null
-  tail: Node | null = null
+export default class DoublyLinkedList<T> {
+  head: Node<T> | null = null
+  tail: Node<T> | null = null
 
   /**
    * Initializes a new doubly-linked list.
    *
    * @param nodes zero or more nodes with which to initialize the list
    */
-  constructor (...nodes: Node[]) {
+  constructor (...nodes: Node<T>[]) {
     if (nodes.length) {
       this.setHead(nodes[0])
 
@@ -49,7 +49,7 @@ export default class DoublyLinkedList {
    *
    * @param node the node to be set as the head
    */
-  setHead (node: Node) {
+  setHead (node: Node<T>) {
     if (this.head === null) {
       this.head = node
       this.tail = node
@@ -68,7 +68,7 @@ export default class DoublyLinkedList {
    *
    * @param node the node to be set as the tail
    */
-  setTail (node: Node) {
+  setTail (node: Node<T>) {
     if (this.tail === null) {
       this.setHead(node)
       return
@@ -87,7 +87,7 @@ export default class DoublyLinkedList {
    * @param existingNode the existing node before which to insert
    * @param nodeToInsert the new node to be inserted (or moved)
    */
-  insertBefore (existingNode: Node, nodeToInsert: Node) {
+  insertBefore (existingNode: Node<T>, nodeToInsert: Node<T>) {
     // If we're assigning the same node before itself, do nothing.
     if (existingNode === nodeToInsert) {
       return
@@ -119,7 +119,7 @@ export default class DoublyLinkedList {
    * @param existingNode the existing node after which to insert
    * @param nodeToInsert the new node to be inserted (or moved)
    */
-  insertAfter (existingNode: Node, nodeToInsert: Node) {
+  insertAfter (existingNode: Node<T>, nodeToInsert: Node<T>) {
     // If we're assigning the same node before itself, do nothing.
     if (existingNode === nodeToInsert) {
       return
@@ -142,7 +142,7 @@ export default class DoublyLinkedList {
   }
 
   /**
-   * Inserts a new node at the specified position. If the in serted node is
+   * Inserts a new node at the specified position. If the inserted node is
    * already in the list, it will be moved.
    *
    * Time:  O(position) => O(N)
@@ -151,7 +151,7 @@ export default class DoublyLinkedList {
    * @param position the list position (head starts at 1)
    * @param nodeToInsert the node to be inserted (or moved)
    */
-  insertAtPosition (position: number, nodeToInsert: Node) {
+  insertAtPosition (position: number, nodeToInsert: Node<T>) {
     // If the node is already in the list, remove it first.
     this.remove(nodeToInsert)
 
@@ -187,7 +187,7 @@ export default class DoublyLinkedList {
    *
    * @param node the node to be removed
    */
-  remove (node: Node) {
+  remove (node: Node<T>) {
     // If the node isn't already in the list, return.
     if (node !== this.head && node.next === null && node.prev === null) {
       return
@@ -217,7 +217,7 @@ export default class DoublyLinkedList {
    *
    * @param value the target value
    */
-  removeNodesWithValue (value: any) {
+  removeNodesWithValue (value: T) {
     let node = this.head
 
     while (node) {
@@ -232,14 +232,14 @@ export default class DoublyLinkedList {
   }
 
   /**
-   * Whether or not one or more nodes in the list contain the given value.
+   * Whether or not one or more nodes in the list have the given value.
    *
    * Time:  O(N)
    * Space: O(1)
    *
    * @param value the target value
    */
-  containsNodeWithValue (value: any) {
+  containsNodeWithValue (value: T) {
     let node = this.head
 
     while (node) {
@@ -257,10 +257,10 @@ export default class DoublyLinkedList {
 /**
  * Represents a node within a doubly-linked list.
  */
-export class Node {
-  value: any
-  prev: Node | null
-  next: Node | null
+export class Node<T> {
+  value: T
+  prev: Node<T> | null
+  next: Node<T> | null
 
   /**
    * Initializes a new node.
@@ -269,7 +269,11 @@ export class Node {
    * @param prev a reference to the preceding node
    * @param next a reference to the following node
    */
-  constructor (value: any, prev = null, next = null) {
+  constructor (
+    value: T,
+    prev: Node<T> | null = null,
+    next: Node<T> | null = null
+  ) {
     this.value = value
     this.prev = prev
     this.next = next
